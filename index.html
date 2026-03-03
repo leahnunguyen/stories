@@ -1,20 +1,220 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>Website Template</title>  
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="./assets/css/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Closet</title>
+
+  <!-- Optional: nicer script font (safe to remove) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Parisienne&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #f5efe6;
+      --ink: #b99d90;
+      --ink-soft: rgba(185,157,144,.55);
+      --shadow: rgba(0,0,0,.08);
+    }
+
+    *{ box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      font-family: "Playfair Display", ui-serif, Georgia, serif;
+      color: var(--ink);
+      background: var(--bg);
+      overflow-x: hidden;
+    }
+
+    /* soft vignette / grainy feel */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(1200px 700px at 50% 40%,
+          rgba(255,255,255,.55) 0%,
+          rgba(245,239,230,.95) 55%,
+          rgba(235,225,214,1) 100%);
+      opacity: .9;
+    }
+
+    /* very subtle speckle */
+    body::after{
+      content:"";
+      position: fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:
+        radial-gradient(rgba(0,0,0,.06) 1px, transparent 1px);
+      background-size: 120px 120px;
+      opacity: .06;
+      mix-blend-mode: multiply;
+    }
+
+    .page{
+      min-height: 100%;
+      position: relative;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      align-items: center;
+      padding: 48px 24px 36px;
+      z-index: 1; /* above vignette */
+    }
+
+    header{
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .title{
+      font-family: "Parisienne", "Playfair Display", cursive;
+      font-size: clamp(48px, 6vw, 86px);
+      letter-spacing: .5px;
+      line-height: 1;
+      margin: 0;
+      color: rgba(185,157,144,.75);
+      text-shadow: 0 1px 0 rgba(255,255,255,.25);
+    }
+
+    .subtitle{
+      margin-top: 10px;
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(185,157,144,.45);
+    }
+
+    main{
+      display: grid;
+      place-items: center;
+      padding: 24px 0;
+    }
+
+    .hero{
+      width: min(900px, 92vw);
+      display: grid;
+      place-items: center;
+      border-radius: 24px;
+      position: relative;
+    }
+
+    .hero a{
+      display: inline-block;
+      border-radius: 18px;
+      outline: none;
+      transform: translateZ(0);
+      transition: transform .25s ease, filter .25s ease;
+    }
+
+    .hero a:hover{
+      transform: translateY(-2px) scale(1.006);
+      filter: drop-shadow(0 18px 28px var(--shadow));
+      cursor: pointer;
+    }
+
+    .hero a:focus-visible{
+      box-shadow: 0 0 0 3px rgba(185,157,144,.25);
+    }
+
+    .closet-img{
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 18px;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    footer{
+      text-align: center;
+      padding-top: 6px;
+    }
+
+    .cta{
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(185,157,144,.45);
+    }
+
+    /* tiny hover hint animation */
+    .cta strong{
+      font-weight: 500;
+      color: rgba(185,157,144,.55);
+    }
+
+    /* optional: mimic “click to begin” behavior */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,.65);
+      border: 1px solid rgba(185,157,144,.2);
+      color: rgba(120,90,80,.75);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: .02em;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+      z-index: 2;
+      backdrop-filter: blur(8px);
+    }
+    .toast.show{
+      opacity: 1;
+      transform: translateX(-50%) translateY(-4px);
+    }
+  </style>
 </head>
+
 <body>
+  <div class="page">
+    <header>
+      <h1 class="title">The Closet</h1>
+      <div class="subtitle">A STORY YOU WEAR</div>
+    </header>
 
-	<h1>Website Template</h1>
-	<p>Fork and use this template repo (a.k.a. "boilerplate") for any web project</p>
-	<img src="assets/img/cat.jpg" alt="">
-	<p> your actual word <a href="01.html">in your own</a>hehe<a href="02.html">nhung ne</a></p>
+    <main>
+      <div class="hero">
+        <!-- Clicking the image triggers "begin" (you can change href to your real next page) -->
+        <a href="#begin" id="beginLink" aria-label="Begin The Closet experience">
+          <img
+            class="closet-img"
+            src="closet.png"
+            alt="The Closet landing illustration"
+          />
+        </a>
+      </div>
+    </main>
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="./assets/js/main.js"></script>
+    <footer>
+      <div class="cta">HOVER &amp; <strong>CLICK</strong> TO BEGIN</div>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast">Beginning…</div>
+
+  <script>
+    // Simple “click to begin” feedback (replace with real navigation if you want)
+    const link = document.getElementById("beginLink");
+    const toast = document.getElementById("toast");
+
+    link.addEventListener("click", (e) => {
+      // if you have a real next page, remove the next line
+      e.preventDefault();
+
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 900);
+
+      // Example: navigate to another page
+      // window.location.href = "closet.html";
+    });
+  </script>
 </body>
 </html>
