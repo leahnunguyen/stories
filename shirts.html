@@ -1,20 +1,148 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>Website Template</title>  
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="./assets/css/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Closet — Shirt</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Parisienne&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #f5efe6;
+      --ink: #b99d90;
+      --ink-soft: rgba(185,157,144,.6);
+      --shadow: rgba(0,0,0,.08);
+    }
+
+    *{ box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: "Playfair Display", serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    header{
+      text-align:center;
+      padding:40px 20px 10px;
+    }
+
+    .title{
+      font-family:"Parisienne", cursive;
+      font-size:60px;
+      margin:0;
+      color:rgba(185,157,144,.75);
+    }
+
+    .subtitle{
+      font-size:12px;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+      margin-top:8px;
+      color:rgba(185,157,144,.45);
+    }
+
+    main{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:40px 20px;
+      text-align:center;
+    }
+
+    .shirt-container{
+      position:relative;
+      margin-bottom:30px;
+    }
+
+    .shirt-img{
+      width:280px;
+      transition:transform .3s ease, filter .3s ease;
+      cursor:pointer;
+    }
+
+    .shirt-img:hover{
+      transform:scale(1.05);
+      filter:drop-shadow(0 15px 25px var(--shadow));
+    }
+
+    .story{
+      max-width:500px;
+      line-height:1.8;
+      font-size:18px;
+      color:rgba(120,90,80,.8);
+      opacity:0;
+      transition:opacity .6s ease;
+    }
+
+    .story.show{
+      opacity:1;
+    }
+
+    .nav{
+      margin-top:40px;
+      font-size:12px;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+    }
+
+    .nav a{
+      text-decoration:none;
+      color:var(--ink-soft);
+      margin:0 20px;
+      transition:opacity .2s ease;
+    }
+
+    .nav a:hover{
+      opacity:.6;
+    }
+
+  </style>
 </head>
+
 <body>
 
-	<h1>Page 01</h1>
-	<p>Fork and use this template repo (a.k.a. "boilerplate") for any web project</p>
-	<img src="assets/img/cat.jpg" alt="">
-	<p> your actual word <a href="01.html">in your own</a>hehe</p>
+  <header>
+    <h1 class="title">The Closet</h1>
+    <div class="subtitle">The Shirt</div>
+  </header>
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="./assets/js/main.js"></script>
+  <main>
+
+  <img src="assets/img/redshirt.jpg" alt="">
+
+    <div class="story" id="storyText">
+      This was the shirt you wore the first day you felt brave.<br><br>
+      The fabric still remembers the warmth of that morning light,
+      the quiet nervousness in your hands,
+      and the small decision to show up anyway.<br><br>
+      Some clothes do not just cover you —  
+      they carry you.
+    </div>
+
+    <div class="nav">
+      <a href="index.html">← Back to Closet</a>
+      <a href="#">Next Item →</a>
+    </div>
+
+  </main>
+
+  <script>
+    const shirt = document.getElementById("shirt");
+    const story = document.getElementById("storyText");
+
+    shirt.addEventListener("click", () => {
+      story.classList.toggle("show");
+    });
+  </script>
+
 </body>
 </html>
